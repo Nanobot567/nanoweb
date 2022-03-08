@@ -6,14 +6,18 @@ except ImportError:
     from pip._internal import main as pipmain
 
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtWebEngineWidgets import *
-from PyQt5.QtPrintSupport import *
-import sys
-import os
-
+try:
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtWebEngineWidgets import *
+    from PyQt5.QtPrintSupport import *
+    import sys
+    import os
+except:
+    print("a module wasn't installed, installing all modules...")
+    pipmain(["install","PyQt5"])
+    pipmain(["install","PyQtWebEngine"])
 
 
 bookmark = []
@@ -95,25 +99,30 @@ class MainWindow(QMainWindow):
         
         navtb.addSeparator()
 
-        bookmark = QAction("🔖", self)
-        bookmark.setStatusTip("Create Bookmark")
-        bookmark.triggered.connect(lambda: self.bookmark())
-        navtb.addAction(bookmark)
+        dlBtn = QAction("DL", self)
+        dlBtn.setStatusTip("Download URL")
+        dlBtn.triggered.connect(lambda: self.dl())
+        navtb.addAction(dlBtn)
 
-        showBMs = QAction("📓", self)
-        showBMs.setStatusTip("List Bookmarks")
-        showBMs.triggered.connect(lambda: self.showBookmarks())
-        navtb.addAction(showBMs)
+        # bookmark = QAction("🔖", self)
+        # bookmark.setStatusTip("Create Bookmark")
+        # bookmark.triggered.connect(lambda: self.bookmark())
+        # navtb.addAction(bookmark)
 
-        delBK = QAction("📓X", self)
-        delBK.setStatusTip("Delete a Bookmark (go to the webpage that was bookmarked, then press me)")
-        delBK.triggered.connect(lambda: self.delBK())
-        navtb.addAction(delBK)
+        # showBMs = QAction("📓", self)
+        # showBMs.setStatusTip("List Bookmarks")
+        # showBMs.triggered.connect(lambda: self.dl())
+        # navtb.addAction(showBMs)
 
-        delABK = QAction("X📓X", self)
-        delABK.setStatusTip("Delete All Bookmarks")
-        delABK.triggered.connect(lambda: self.delABK())
-        navtb.addAction(delABK)
+        # delBK = QAction("📓X", self)
+        # delBK.setStatusTip("Delete a Bookmark (go to the webpage that was bookmarked, then press me)")
+        # delBK.triggered.connect(lambda: self.delBK())
+        # navtb.addAction(delBK)
+
+        # delABK = QAction("X📓X", self)
+        # delABK.setStatusTip("Delete All Bookmarks")
+        # delABK.triggered.connect(lambda: self.delABK())
+        # navtb.addAction(delABK)
 
         navtb.addSeparator()
 
@@ -145,6 +154,9 @@ class MainWindow(QMainWindow):
             f = open("data\\bkmk.nweb","a")
             f.write(f"\n{q}")
             f.close()
+
+    def dl(self):
+        os.system('start cmd /c "cd .. && python nanoscrape.py"')
     
     def showBookmarks(self):
         f = open("data\\bkmk.nweb","r")
