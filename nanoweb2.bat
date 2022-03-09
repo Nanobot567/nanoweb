@@ -1,1 +1,1 @@
-python browser.py
+python browser.py "%1"

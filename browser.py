@@ -20,28 +20,37 @@ except:
     pipmain(["install","PyQtWebEngine"])
 
 
-bookmark = []
-
-os.chdir("data\\")
-
 try:
-    f = open("data\\bkmk.nweb")
-except FileExistsError:
-    pass
-except FileNotFoundError:
-    os.system("mkdir data")
-    os.system("cd data && echo # nanoweb bookmarks > bkmk.nweb")
-    f = open("data\\bkmk.nweb","w+")
-    f.write("\n")
+    argvAddr = sys.argv[1]
+    if (argvAddr.find("https://") or argvAddr.find("http://")) == -1:
+        argvAddr = "https://"+sys.argv[1]
+except IndexError:
+    argvAddr = ""
 
-if not "# nanoweb bookmarks" in f.read():
-    f.close()
-    os.remove("data\\bkmk.nweb")
-    os.removedirs("data")
-    os.system("mkdir data")
-    os.system("cd data && echo # nanoweb bookmarks > bkmk.nweb")
-    f = open("data\\bkmk.nweb","a")
-    f.write("\n")
+
+
+# bookmark = []
+
+# os.chdir("data\\")
+
+# try:
+#     f = open("data\\bkmk.nweb")
+# except FileExistsError:
+#     pass
+# except FileNotFoundError:
+#     os.system("mkdir data")
+#     os.system("cd data && echo # nanoweb bookmarks > bkmk.nweb")
+#     f = open("data\\bkmk.nweb","w+")
+#     f.write("\n")
+
+# if not "# nanoweb bookmarks" in f.read():
+#     f.close()
+#     os.remove("data\\bkmk.nweb")
+#     os.removedirs("data")
+#     os.system("mkdir data")
+#     os.system("cd data && echo # nanoweb bookmarks > bkmk.nweb")
+#     f = open("data\\bkmk.nweb","a")
+#     f.write("\n")
 
 
 
@@ -136,8 +145,10 @@ class MainWindow(QMainWindow):
         # stop_btn.setStatusTip("Stop loading current page")
         # stop_btn.triggered.connect(lambda: self.tabs.currentWidget().stop())
         # navtb.addAction(stop_btn)
-
-        self.add_new_tab(QUrl("http://www.duckduckgo.com"), "Homepage")
+        if argvAddr:
+            self.add_new_tab(QUrl(argvAddr), "Webpage")
+        else:
+            self.add_new_tab(QUrl("http://www.duckduckgo.com"), "Homepage")
 
         self.show()
 
@@ -289,7 +300,7 @@ class MainWindow(QMainWindow):
 app = QApplication(sys.argv)
 
 app.setApplicationName("nanoweb")
-app.setWindowIcon(QIcon("C:\\Users\\JamesC77655\\Desktop\\Programming\\nanoweb_v2\\nanoweb.png"))
+app.setWindowIcon(QIcon("nanoweb.png"))
 
 # dialog = Ui_Dialog()
 window = MainWindow()
