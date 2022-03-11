@@ -1,5 +1,8 @@
 # importing required libraries
 
+from sys import argv
+
+
 try:
     from pip import main as pipmain
 except ImportError:
@@ -22,7 +25,7 @@ except:
 
 try:
     argvAddr = sys.argv[1]
-    if (argvAddr.find("https://") or argvAddr.find("http://")) == -1:
+    if (argvAddr.find("https://") or argvAddr.find("http://")):
         argvAddr = "https://"+sys.argv[1]
 except IndexError:
     argvAddr = ""
@@ -145,10 +148,10 @@ class MainWindow(QMainWindow):
         # stop_btn.setStatusTip("Stop loading current page")
         # stop_btn.triggered.connect(lambda: self.tabs.currentWidget().stop())
         # navtb.addAction(stop_btn)
-        if argvAddr:
-            self.add_new_tab(QUrl(argvAddr), "Webpage")
-        else:
+        if argvAddr == "":
             self.add_new_tab(QUrl("http://www.duckduckgo.com"), "Homepage")
+        else:
+            self.add_new_tab(QUrl(argvAddr), "Webpage")
 
         self.show()
 

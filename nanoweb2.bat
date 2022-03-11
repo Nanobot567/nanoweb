@@ -1,1 +1,2 @@
-python browser.py "%1"
+@echo off
+python browser.py %1
