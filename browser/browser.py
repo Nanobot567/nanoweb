@@ -170,7 +170,7 @@ class MainWindow(QMainWindow):
             f.close()
 
     def dl(self):
-        os.system('start cmd /c "cd .. && python nanoscrape.py"')
+        os.system('python browser/nanoscrape.py"')
     
     def showBookmarks(self):
         f = open("data\\bkmk.nweb","r")
